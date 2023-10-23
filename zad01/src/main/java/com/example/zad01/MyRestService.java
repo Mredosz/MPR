@@ -22,7 +22,9 @@ public class MyRestService {
         return (ArrayList<Capybara>) this.repository.findAll();
     }
     public void addCapybara(Capybara capybara) {
-        this.repository.save(capybara);
+        if (getCapybaraByName(capybara.getName()) == null){
+            this.repository.save(capybara);
+        }
     }
 
     public void deleteCapybaraByName(String name){
@@ -32,9 +34,11 @@ public class MyRestService {
 
     public Capybara updateCapybaraByName(String name, Capybara capybara1){
         Capybara capybara = this.repository.findByName(name);
-        capybara.setName(capybara1.getName());
-        capybara.setAge(capybara1.getAge());
-        this.repository.save(capybara);
+        if (!this.repository.findByName(capybara.getName()).getName().isEmpty()){
+            capybara.setName(capybara1.getName());
+            capybara.setAge(capybara1.getAge());
+            this.repository.save(capybara);
+        }
         return capybara;
     }
 }
