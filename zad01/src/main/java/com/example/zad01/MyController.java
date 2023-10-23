@@ -32,7 +32,7 @@ public class MyController {
     }
 
     @PostMapping("/capybara/add")
-    public void postDog(@RequestBody Capybara capybara){
+    public void postCapybara(@RequestBody Capybara capybara){
         this.myRestService.addCapybara(capybara);
     }
 
