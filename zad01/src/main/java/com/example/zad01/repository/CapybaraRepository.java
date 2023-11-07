@@ -1,5 +1,6 @@
-package com.example.zad01;
+package com.example.zad01.repository;
 
+import com.example.zad01.Capybara;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

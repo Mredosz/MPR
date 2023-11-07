@@ -1,5 +1,7 @@
-package com.example.zad01;
+package com.example.zad01.controller;
 
+import com.example.zad01.Capybara;
+import com.example.zad01.service.MyRestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +16,6 @@ public class MyController {
     @Autowired
     public MyController(MyRestService myRestService){
         this.myRestService = myRestService;
-    }
-
-    @GetMapping("/greeting")
-    public String greeting(){
-        return "Greeting from Spring Boot";
     }
 
     @GetMapping("/capybara/{name}")
