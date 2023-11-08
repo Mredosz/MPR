@@ -40,5 +40,4 @@ public class MyController {
     public Capybara updateByName(@PathVariable("name")String name, @RequestBody Capybara capybara){
         return this.myRestService.updateCapybaraByName(name, capybara);
     }
-
 }

@@ -1,5 +1,6 @@
 package com.example.zad01.exeception;
 
+import com.example.zad01.exeception.exceptionsClass.CapybaraAgeIsToLowException;
 import com.example.zad01.exeception.exceptionsClass.CapybaraAlreadyExistException;
 import com.example.zad01.exeception.exceptionsClass.CapybaraNotExistException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,11 @@ public class CapybaraExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CapybaraAlreadyExistException.class)
     protected ResponseEntity<String> capybaraExist(RuntimeException ex , WebRequest request){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CapybaraAgeIsToLowException.class)
+    protected ResponseEntity<String> capybaraAgeIsToLow(RuntimeException ex, WebRequest request){
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
