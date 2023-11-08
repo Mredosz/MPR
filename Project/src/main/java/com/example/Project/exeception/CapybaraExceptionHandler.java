@@ -1,8 +1,8 @@
-package com.example.zad01.exeception;
+package com.example.Project.exeception;
 
-import com.example.zad01.exeception.exceptionsClass.CapybaraAgeIsToLowException;
-import com.example.zad01.exeception.exceptionsClass.CapybaraAlreadyExistException;
-import com.example.zad01.exeception.exceptionsClass.CapybaraNotExistException;
+import com.example.Project.exeception.exceptionsClass.CapybaraAgeIsToLowException;
+import com.example.Project.exeception.exceptionsClass.CapybaraAlreadyExistException;
+import com.example.Project.exeception.exceptionsClass.CapybaraNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

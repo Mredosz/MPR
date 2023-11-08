@@ -1,4 +1,4 @@
-package com.example.zad01;
+package com.example.Project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

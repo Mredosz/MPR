@@ -1,4 +1,4 @@
-package com.example.zad01.exeception.exceptionsClass;
+package com.example.Project.exeception.exceptionsClass;
 
 public class CapybaraAlreadyExistException extends RuntimeException{
     public CapybaraAlreadyExistException(){

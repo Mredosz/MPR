@@ -1,6 +1,6 @@
-package com.example.zad01.repository;
+package com.example.Project.repository;
 
-import com.example.zad01.Capybara;
+import com.example.Project.Capybara;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

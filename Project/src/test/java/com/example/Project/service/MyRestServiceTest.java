@@ -1,8 +1,7 @@
-package com.example.zad01.service;
+package com.example.Project.service;
 
-import com.example.zad01.Capybara;
-import com.example.zad01.repository.CapybaraRepository;
-import com.example.zad01.service.MyRestService;
+import com.example.Project.Capybara;
+import com.example.Project.repository.CapybaraRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

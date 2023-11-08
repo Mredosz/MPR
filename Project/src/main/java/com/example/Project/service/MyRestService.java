@@ -1,14 +1,13 @@
-package com.example.zad01.service;
+package com.example.Project.service;
 
-import com.example.zad01.Capybara;
-import com.example.zad01.exeception.exceptionsClass.CapybaraAgeIsToLowException;
-import com.example.zad01.exeception.exceptionsClass.CapybaraAlreadyExistException;
-import com.example.zad01.exeception.exceptionsClass.CapybaraNotExistException;
-import com.example.zad01.repository.CapybaraRepository;
+import com.example.Project.Capybara;
+import com.example.Project.exeception.exceptionsClass.CapybaraAgeIsToLowException;
+import com.example.Project.exeception.exceptionsClass.CapybaraAlreadyExistException;
+import com.example.Project.exeception.exceptionsClass.CapybaraNotExistException;
+import com.example.Project.repository.CapybaraRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 public class MyRestService {
