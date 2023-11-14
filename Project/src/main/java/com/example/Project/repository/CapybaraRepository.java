@@ -4,7 +4,9 @@ import com.example.Project.Capybara;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CapybaraRepository extends CrudRepository<Capybara,Long> {
-    public Capybara findByName(String name);
+    public Optional<Capybara> findByName(String name);
 }

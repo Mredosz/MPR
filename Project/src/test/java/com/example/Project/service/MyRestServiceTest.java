@@ -1,6 +1,7 @@
 package com.example.Project.service;
 
 import com.example.Project.Capybara;
+import com.example.Project.exeception.exceptionsClass.CapybaraAgeIsToLowException;
 import com.example.Project.exeception.exceptionsClass.CapybaraAlreadyExistException;
 import com.example.Project.exeception.exceptionsClass.CapybaraNotExistException;
 import com.example.Project.repository.CapybaraRepository;
@@ -13,7 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,47 +43,42 @@ public class MyRestServiceTest {
 
     @Test
     public void findCapybaraByNameWhenCapybaraExist(){
-        String name = "Adam";
-        Capybara capybara = new Capybara(name, 3);
-        when(repository.findByName(name)).thenReturn(capybara);
-        var result = service.getCapybaraByName(name);
-        assertEquals(result,capybara);
+        Capybara capybara = new Capybara("Adam", 3);
+        when(repository.findByName(capybara.getName())).thenReturn(Optional.of(capybara));
+        var result = service.getCapybaraByName(capybara.getName());
+        assertEquals(result.get(),capybara);
     }
     @Test
     public void findCapybaraByNameWhenCapybaraIsNotExist(){
-        when(repository.findByName("Adam")).thenReturn(null);
+        when(repository.findByName("Adam")).thenReturn(empty());
 
         assertThrows(CapybaraNotExistException.class, () ->{service.getCapybaraByName("Adam");});
     }
 
     @Test
     public void addCapybaraWhenCapybaraIsNotExist(){
-        String name = "Adam";
-        Capybara capybara = new Capybara(name, 3);
-        ArgumentCaptor<Capybara> captor = ArgumentCaptor.forClass(Capybara.class);
-        when(repository.save(captor.capture())).thenReturn(capybara);
+        Capybara capybara = new Capybara("Adam", 3);
 
-        service.addCapybara(capybara);
-        Mockito.verify(repository, Mockito.times(1))
-                .save(Mockito.any());
-        Capybara result = captor.getValue();
-        assertEquals(capybara, result);
+        when(repository.findByName(capybara.getName())).thenReturn(empty());
+        when(repository.save(capybara)).thenReturn(capybara);
+
+        var result = service.addCapybara(capybara);
+
+        assertEquals(capybara, result.get());
     }
     @Test
     public void addCapybaraWhenCapybaraExist(){
         Capybara capybara = new Capybara("Adam", 4);
-        when(repository.findByName("Adam")).thenReturn(capybara);
+        when(repository.findByName(capybara.getName())).thenReturn(Optional.of(capybara));
 
         assertThrows(CapybaraAlreadyExistException.class, () ->{service.addCapybara(capybara);});
     }
 
     @Test
     public void getAllCapybaraWhenCapybaraExist(){
-        String name1 = "Adam";
-        String name2 = "Marek";
         var capyList = new ArrayList<Capybara>();
-        capyList.add(new Capybara(name1,1));
-        capyList.add(new Capybara(name2,5));
+        capyList.add(new Capybara("Marek",1));
+        capyList.add(new Capybara("Adam",5));
 
         when(repository.findAll()).thenReturn(capyList);
 
@@ -98,53 +96,60 @@ public class MyRestServiceTest {
 
     @Test
     public void deleteCapybaraByNameWhenCapybaraExist(){
-        String name = "Marek";
-        Capybara capybara = new Capybara(name,12);
+        Capybara capybara = new Capybara("Marek",12);
 
-        when(repository.findByName(name)).thenReturn(capybara);
+        when(repository.findByName(capybara.getName())).thenReturn(Optional.of(capybara));
 
-        service.deleteCapybaraByName(name);
+        service.deleteCapybaraByName(capybara.getName());
 
         Mockito.verify(repository).delete(capybara);
     }
     @Test
     public void deleteCapybaraByNameWhenCapybaraIsNotExist(){
-        String name = "Marek";
-        Capybara capybara = new Capybara(name,12);
+        Capybara capybara = new Capybara("Adam", 4);
+        when(repository.findByName(capybara.getName())).thenReturn(empty());
 
-        when(repository.findByName(name)).thenReturn(capybara);
-
-        service.deleteCapybaraByName(name);
-
-        Mockito.verify(repository).delete(capybara);
+        assertThrows(CapybaraNotExistException.class, () ->{service.deleteCapybaraByName(capybara.getName());});
     }
 
     @Test
     public void updateCapybaraByNameWhenCapybaraExist(){
-        String name = "Marta";
-        Capybara capybara = new Capybara(name,6);
-        Capybara updateCapybara = new Capybara(name,12);
+        Capybara capybara = new Capybara("Marta",6);
+        Capybara capybaraUpdate = new Capybara("Marta",12);
 
-        when(repository.findByName(name)).thenReturn(capybara);
-        when(repository.findByName(updateCapybara.getName())).thenReturn(updateCapybara);
+        when(repository.findByName(capybara.getName())).thenReturn(Optional.of(capybara));
+        when(repository.save(capybara)).thenReturn(capybaraUpdate);
 
-        Capybara result = service.updateCapybaraByName(name,capybara);
+        var result = service.updateCapybaraByName(capybara.getName(),capybaraUpdate);
 
 
-        assertEquals(updateCapybara, result);
+        assertEquals(capybaraUpdate, result.get());
     }
     @Test
     public void updateCapybaraByNameWhenCapybaraIsNotExist(){
-        String name = "Marta";
-        Capybara capybara = new Capybara(name,6);
-        Capybara updateCapybara = new Capybara(name,12);
+        Capybara capybara = new Capybara("Adam", 4);
+        when(repository.findByName(capybara.getName())).thenReturn(empty());
 
-        when(repository.findByName(name)).thenReturn(capybara);
-        when(repository.findByName(updateCapybara.getName())).thenReturn(updateCapybara);
+        assertThrows(CapybaraNotExistException.class, () ->{service.updateCapybaraByName(capybara.getName(),capybara);});
+    }
 
-        Capybara result = service.updateCapybaraByName(name,capybara);
+    @Test
+    public void updateCapybaraByNameWhenCapybaraAgeIsToLow(){
+        Capybara capybara = new Capybara("Adam", 4);
+        Capybara capybaraUpdate = new Capybara("Adam", 2);
+        when(repository.findByName(capybara.getName())).thenReturn(Optional.of(capybara));
 
+        assertThrows(CapybaraAgeIsToLowException.class, () ->{service.updateCapybaraByName(capybara.getName(),capybaraUpdate);});
+    }
+    @Test
+    public void updateCapybaraByNameWhenCapybaraAgeIsOk(){
+        Capybara capybara = new Capybara("Adam", 4);
+        Capybara capybaraUpdate = new Capybara("Adam", 5);
+        when(repository.findByName(capybara.getName())).thenReturn(Optional.of(capybara));
+        when(repository.save(capybara)).thenReturn(capybaraUpdate);
 
-        assertEquals(updateCapybara, result);
+        var result = service.updateCapybaraByName("Adam",capybaraUpdate);
+
+        assertEquals(result.get(), capybaraUpdate);
     }
 }

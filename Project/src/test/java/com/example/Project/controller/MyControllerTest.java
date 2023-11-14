@@ -16,11 +16,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,7 +58,7 @@ public class MyControllerTest {
 
     @Test
     public void searchCapybaraByNameWhenCapybaraExist() throws Exception {
-        when(service.getCapybaraByName("Bob")).thenReturn(new Capybara("Bob", 2));
+        when(service.getCapybaraByName("Bob")).thenReturn(Optional.of(new Capybara("Bob", 2)));
 
         mockMvc.perform(get("/capybara/Bob"))
                 .andExpect(jsonPath("$.age").value("2"))
@@ -77,8 +76,19 @@ public class MyControllerTest {
 
     @Test
     public void addCapybaraWhenCapybaraIsNotExist() throws Exception {
-        Capybara capybara = new Capybara("Bob", 2);
+        var capybara = new Capybara("Bob", 2);
 
+        when(service.addCapybara(any())).thenReturn(Optional.of(capybara));
+
+        mockMvc.perform(post("/capybara/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"name\": \"Bob\", \"age\": \"2\"}")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void addCapybaraWhenCapybaraExist() throws Exception {
         when(service.addCapybara(any())).thenThrow(new CapybaraAlreadyExistException());
 
         mockMvc.perform(post("/capybara/add")
@@ -86,11 +96,6 @@ public class MyControllerTest {
                         .content("{ \"name\": \"Bob\", \"age\": \"2\"}")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void adCapybaraWhenCapybaraExist() {
-
     }
 
     @Test
@@ -112,13 +117,10 @@ public class MyControllerTest {
 
     @Test
     public void deleteCapybaraByNameWhenCapybaraExist() {
-        String name = "Marcel";
-        Capybara capybara = new Capybara(name, 6);
-
-        controller.deleteByName(name);
+        controller.deleteByName("Marcel");
 
         Mockito.verify(service, Mockito.times(1))
-                .deleteCapybaraByName(name);
+                .deleteCapybaraByName("Marcel");
     }
 
     @Test
@@ -130,15 +132,14 @@ public class MyControllerTest {
     public void updateCapybaraByNameWhenCapybaraExist() {
         String name = "Marcel";
         Capybara capybara = new Capybara(name, 4);
-        Capybara updateCapybara = new Capybara(name, 7);
 
-        when(service.updateCapybaraByName(name, capybara)).thenReturn(capybara);
+        when(service.updateCapybaraByName(name, capybara)).thenReturn(Optional.of(capybara));
 
-        Capybara result = controller.updateByName(name, capybara);
+        var result = controller.updateByName(name, capybara);
 
         Mockito.verify(service).updateCapybaraByName(name, capybara);
 
-        assertEquals(capybara, result);
+        assertEquals(capybara, result.get());
     }
 
     @Test

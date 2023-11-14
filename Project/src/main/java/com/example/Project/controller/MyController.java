@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 @RestController
@@ -19,7 +20,7 @@ public class MyController {
     }
 
     @GetMapping("/capybara/{name}")
-    public Capybara getByName(@PathVariable("name") String name){
+    public Optional<Capybara> getByName(@PathVariable("name") String name){
            return this.myRestService.getCapybaraByName(name);
     }
 
@@ -29,15 +30,15 @@ public class MyController {
     }
 
     @PostMapping("/capybara/add")
-    public void postCapybara(@RequestBody Capybara capybara){
-        this.myRestService.addCapybara(capybara);
+    public Optional<Capybara> postCapybara(@RequestBody Capybara capybara){
+       return this.myRestService.addCapybara(capybara);
     }
 
     @DeleteMapping("/capybara/delete/{name}")
     public void deleteByName(@PathVariable("name")String name){this.myRestService.deleteCapybaraByName(name);}
 
     @PutMapping("/capybara/update/{name}")
-    public Capybara updateByName(@PathVariable("name")String name, @RequestBody Capybara capybara){
+    public Optional<Capybara> updateByName(@PathVariable("name")String name, @RequestBody Capybara capybara){
         return this.myRestService.updateCapybaraByName(name, capybara);
     }
 }

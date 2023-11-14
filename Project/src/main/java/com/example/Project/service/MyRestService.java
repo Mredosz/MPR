@@ -8,6 +8,7 @@ import com.example.Project.repository.CapybaraRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class MyRestService {
@@ -20,8 +21,8 @@ public class MyRestService {
         this.repository.save(new Capybara("Dan", 12));
     }
 
-    public Capybara getCapybaraByName(String name) {
-        if (this.repository.findByName(name) != null)
+    public Optional<Capybara> getCapybaraByName(String name) {
+        if (this.repository.findByName(name).isPresent())
             return this.repository.findByName(name);
         else throw new CapybaraNotExistException();
     }
@@ -32,28 +33,28 @@ public class MyRestService {
         else throw new CapybaraNotExistException();
     }
 
-    public void addCapybara(Capybara capybara) {
-        if (repository.findByName(capybara.getName()) == null)
-            this.repository.save(capybara);
+    public Optional<Capybara> addCapybara(Capybara capybara) {
+        if (repository.findByName(capybara.getName()).isEmpty())
+           return Optional.of(this.repository.save(capybara));
         else
             throw new CapybaraAlreadyExistException();
     }
 
     public void deleteCapybaraByName(String name) {
-        Capybara capybara = this.repository.findByName(name);
-        if (capybara != null)
-            this.repository.delete(capybara);
+        var capybara = this.repository.findByName(name);
+        if (capybara.isPresent())
+            this.repository.delete(capybara.get());
         else
             throw new CapybaraNotExistException();
     }
 
-    public Capybara updateCapybaraByName(String name, Capybara capybara1) {
-        Capybara capybara = this.repository.findByName(name);
-        if (capybara != null) {
-            if (capybara.getAge() < capybara1.getAge())
-            capybara.setAge(capybara1.getAge());
+    public Optional<Capybara> updateCapybaraByName(String name, Capybara capybara1) {
+        var capybara = this.repository.findByName(name);
+        if (capybara.isPresent()) {
+            if (capybara.get().getAge() < capybara1.getAge())
+            capybara.get().setAge(capybara1.getAge());
             else throw new CapybaraAgeIsToLowException();
-            return this.repository.save(capybara);
+            return Optional.of(this.repository.save(capybara.get()));
         } else {
             throw new CapybaraNotExistException();
         }
