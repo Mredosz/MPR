@@ -8,6 +8,7 @@ import com.example.Project.repository.CapybaraRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,8 @@ public class MyRestService {
         this.repository.save(new Capybara("Bob", 2));
         this.repository.save(new Capybara("George", 5));
         this.repository.save(new Capybara("Dan", 12));
+        this.repository.save(new Capybara("DanMark", 6));
+        this.repository.save(new Capybara("DanBob", 7));
     }
 
     public Optional<Capybara> getCapybaraByName(String name) {
@@ -35,7 +38,7 @@ public class MyRestService {
 
     public Optional<Capybara> addCapybara(Capybara capybara) {
         if (repository.findByName(capybara.getName()).isEmpty())
-           return Optional.of(this.repository.save(capybara));
+            return Optional.of(this.repository.save(capybara));
         else
             throw new CapybaraAlreadyExistException();
     }
@@ -52,11 +55,18 @@ public class MyRestService {
         var capybara = this.repository.findByName(name);
         if (capybara.isPresent()) {
             if (capybara.get().getAge() < capybara1.getAge())
-            capybara.get().setAge(capybara1.getAge());
+                capybara.get().setAge(capybara1.getAge());
             else throw new CapybaraAgeIsToLowException();
             return Optional.of(this.repository.save(capybara.get()));
         } else {
             throw new CapybaraNotExistException();
         }
+    }
+
+    public List<Capybara> findCapybarasThatNameIsContainsNameFromLink(String name) {
+        var capybaraListWithAllCapybara = ((ArrayList<Capybara>) this.repository.findAll());
+        return capybaraListWithAllCapybara.stream()
+                .filter(capybara -> capybara.getName().equalsIgnoreCase(name))
+                .toList();
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -40,5 +41,10 @@ public class MyController {
     @PutMapping("/capybara/update/{name}")
     public Optional<Capybara> updateByName(@PathVariable("name")String name, @RequestBody Capybara capybara){
         return this.myRestService.updateCapybaraByName(name, capybara);
+    }
+
+    @GetMapping("/capybaras/{name}")
+    public List<Capybara> getAllCapybaraThatContainsName(@PathVariable("name") String name){
+        return this.myRestService.findCapybarasThatNameIsContainsNameFromLink(name);
     }
 }

@@ -2,6 +2,7 @@ package com.example.Project.controller;
 
 import com.example.Project.Capybara;
 import com.example.Project.exeception.CapybaraExceptionHandler;
+import com.example.Project.exeception.exceptionsClass.CapybaraAgeIsToLowException;
 import com.example.Project.exeception.exceptionsClass.CapybaraAlreadyExistException;
 import com.example.Project.exeception.exceptionsClass.CapybaraNotExistException;
 import com.example.Project.service.MyRestService;
@@ -23,9 +24,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -99,52 +100,83 @@ public class MyControllerTest {
     }
 
     @Test
-    public void getAllCapybaraWhenCapybaraExist() {
+    public void getAllCapybaraWhenCapybaraExist() throws Exception {
         var capyList = new ArrayList<Capybara>();
         capyList.add(new Capybara("Maciek", 12));
         capyList.add(new Capybara("Monika", 7));
 
         when(service.getAllCapybaras()).thenReturn(capyList);
 
-        var result = controller.getAll();
-        assertEquals(capyList, result);
+        mockMvc.perform(get("/capybaras"))
+                .andExpect(jsonPath("$.[0].age").value("12"))
+                .andExpect(jsonPath("$.[0].name").value("Maciek"))
+                .andExpect(jsonPath("$.[1].age").value("7"))
+                .andExpect(jsonPath("$.[1].name").value("Monika"))
+                // Poczytac jest odwołanie do konkretnego elemntu w tablicy
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void getAllCapybaraWhenCapybaraIsNotExist() {
+    public void getAllCapybaraWhenCapybaraIsNotExist() throws Exception {
 
+        when(service.getAllCapybaras()).thenThrow(new CapybaraNotExistException());
+
+        mockMvc.perform(get("/capybaras"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    public void deleteCapybaraByNameWhenCapybaraExist() {
-        controller.deleteByName("Marcel");
+    public void deleteCapybaraByNameWhenCapybaraExist() throws Exception {
+        mockMvc.perform(delete("/capybara/delete/Maciek"))
+                .andExpect(status().isOk());
 
-        Mockito.verify(service, Mockito.times(1))
-                .deleteCapybaraByName("Marcel");
+        verify(service).deleteCapybaraByName("Maciek");
     }
 
     @Test
-    public void deleteCapybaraByNameWhenCapybaraIsNotExist() {
+    public void deleteCapybaraByNameWhenCapybaraIsNotExist() throws Exception {
+        when(any()).thenThrow(new CapybaraNotExistException());
 
+        mockMvc.perform(delete("/capybara/delete/Maciek"))
+                .andExpect(status().isNotFound());
+
+        verify(service).deleteCapybaraByName("Maciek");
     }
 
     @Test
-    public void updateCapybaraByNameWhenCapybaraExist() {
-        String name = "Marcel";
-        Capybara capybara = new Capybara(name, 4);
+    public void updateCapybaraByNameWhenCapybaraExist() throws Exception {
+        var capybara = new Capybara("Marcel", 4);
+        when(service.updateCapybaraByName(eq(capybara.getName()), any())).thenReturn(Optional.of(capybara));
 
-        when(service.updateCapybaraByName(name, capybara)).thenReturn(Optional.of(capybara));
-
-        var result = controller.updateByName(name, capybara);
-
-        Mockito.verify(service).updateCapybaraByName(name, capybara);
-
-        assertEquals(capybara, result.get());
+        mockMvc.perform(put("/capybara/update/Marcel")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"name\": \"Marcel\", \"age\": \"5\"}")
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
     }
 
     @Test
-    public void updateCapybaraByNameWhenCapybaraIsNotExist() {
+    public void updateCapybaraByNameWhenCapybaraIsNotExist() throws Exception {
+        var capybara = new Capybara("Marcel", 4);
+        when(service.updateCapybaraByName(eq(capybara.getName()), any())).thenThrow(new CapybaraNotExistException());
 
+        mockMvc.perform(put("/capybara/update/Marcel")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"age\": \"5\"}")
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void updateCapybaraByNameWhenCapybaraAgeIsToLow() throws Exception {
+        var capybara = new Capybara("Marcel", 4);
+        when(service.updateCapybaraByName(eq(capybara.getName()), any())).thenThrow(new CapybaraAgeIsToLowException());
+
+        mockMvc.perform(put("/capybara/update/Marcel")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"name\": \"Marcel\", \"age\": \"2\"}")
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
     }
 }
 
