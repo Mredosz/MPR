@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Capybaras</title>
+</head>
+<body>
+<h1>This is main website with all Capybara </h1>
+<table>
+    <thead>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Age</td>
+    </thead>
+    <tbody>
+        <tr th:each = "capy : ${capybaras}">
+            <td th:text = "${capy.id}"></td>
+            <td th:text = "${capy.name}"></td>
+            <td th:text = "${capy.age}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

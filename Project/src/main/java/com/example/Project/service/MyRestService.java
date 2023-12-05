@@ -66,7 +66,7 @@ public class MyRestService {
     public List<Capybara> findCapybarasThatNameIsContainsNameFromLink(String name) {
         var capybaraListWithAllCapybara = ((ArrayList<Capybara>) this.repository.findAll());
         return capybaraListWithAllCapybara.stream()
-                .filter(capybara -> capybara.getName().equalsIgnoreCase(name))
+                .filter(capybara -> capybara.getName().contains(name))
                 .toList();
     }
 }

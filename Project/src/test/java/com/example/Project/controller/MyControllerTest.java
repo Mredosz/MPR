@@ -135,8 +135,6 @@ public class MyControllerTest {
 
     @Test
     public void deleteCapybaraByNameWhenCapybaraIsNotExist() throws Exception {
-        when(any()).thenThrow(new CapybaraNotExistException());
-
         mockMvc.perform(delete("/capybara/delete/Maciek"))
                 .andExpect(status().isNotFound());
 
