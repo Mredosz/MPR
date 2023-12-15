@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{general.html :: head}"></head>
+<body>
+<nav th:replace="~{general.html :: navbar}"></nav>
+<div class="container-fluid container-main">
+<h1 class="text-center center h1">This is main website with all Capybara </h1>
+<table class="table table-borderless">
+    <thead>
+    <tr>
+        <th scope="col"><b class="h4">ID</b></th>
+        <th scope="col"><b class="h4">Name</b></th>
+        <th scope="col"><b class="h4">Age</b></th>
+        <th scope="col"><b class="h4">Edit</b></th>
+        <th scope="col"><b class="h4">Delete</b></th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each = "capy : ${capybara}">
+            <td th:text = "${capy.id}"></td>
+            <td th:text = "${capy.name}"></td>
+            <td th:text = "${capy.age}"></td>
+            <td>
+                <a th:href="@{'/updateCapybara/' + ${capy.getName()}}">
+                    <button class="btn btn-outline-dark">
+                        <b>Edit</b>
+                    </button>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{'/deleteCapybara/' + ${capy.getName()}}">
+                    <button class="btn btn-outline-dark">
+                        <b>Delete</b>
+                    </button>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

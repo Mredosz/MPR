@@ -1,0 +1,19 @@
+*{
+    box-sizing: border-box;
+}
+#nav-item {
+    font-size: 18px;
+    color: aliceblue;
+}
+#nav-item-main{
+    font-size: 27px;
+    color: aliceblue;
+}
+.container-main{
+    margin-top: 60px;
+
+}
+html body{
+    overflow-x: hidden;
+    width: 100%;
+}

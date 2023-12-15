@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Capybara</title>
-</head>
+<head th:replace="~{general.html :: head}"></head>
 <body>
+<nav th:replace="~{general.html :: navbar}"></nav>
+<div class="container-fluid container-main">
 <h1>On this website you can add new Capybara</h1>
 <form method="post" action="#" th:action="@{/addCapybara}" th:object="${capybara}">
     <div>
         <label>Name:</label>
-        <input type="text" name="name" th:field="*{name}" required>
+        <input type="text" name="name" th:field="*{name}" id="nameAddCapybara" required>
     </div>
     <div>
         <label>Age:</label>
-        <input type="number" name="age" th:field="*{age}" required>
+        <input type="number" name="age" th:field="*{age}" id="ageAddCapybara" required>
     </div>
 
-    <input type="submit" name="Add">
+    <input type="submit" name="Add" id="sendAddCapybara">
 </form>
+</div>
 </body>
 </html>

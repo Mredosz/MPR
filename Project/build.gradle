@@ -21,8 +21,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.1.2'
 
 	runtimeOnly 'com.h2database:h2'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.6.0'
+	testImplementation 'org.seleniumhq.selenium:selenium-java:4.16.1'
 }
 
 
