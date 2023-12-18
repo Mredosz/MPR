@@ -10,13 +10,13 @@ public class SeleniumAddCapybaraPageTest {
     WebDriver driver;
     MyRestService service;
 
-    @FindBy(id = "nameAddCapybara")
+    @FindBy(id = "name")
     WebElement nameInput;
 
-    @FindBy(id = "ageAddCapybara")
+    @FindBy(id = "age")
     WebElement ageInput;
 
-    @FindBy(id = "sendAddCapybara")
+    @FindBy(id = "send")
     WebElement sendSubmit;
 
     public static final String  URL ="http://localhost:8080/addCapybara";

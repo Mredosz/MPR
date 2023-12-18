@@ -54,9 +54,9 @@ public class MyRestService {
     public Optional<Capybara> updateCapybaraByName(String name, Capybara capybara1) {
         var capybara = this.repository.findByName(name);
         if (capybara.isPresent()) {
-//            if (capybara.get().getAge() <= capybara1.getAge())
+            if (capybara.get().getAge() <= capybara1.getAge())
                 capybara.get().setAge(capybara1.getAge());
-//            else throw new CapybaraAgeIsToLowException();
+            else throw new CapybaraAgeIsToLowException();
             return Optional.of(this.repository.save(capybara.get()));
         } else {
             throw new CapybaraNotExistException();
