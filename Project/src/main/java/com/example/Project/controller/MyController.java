@@ -36,7 +36,9 @@ public class MyController {
     }
 
     @DeleteMapping("/capybara/delete/{name}")
-    public void deleteByName(@PathVariable("name")String name){this.myRestService.deleteCapybaraByName(name);}
+    public void deleteByName(@PathVariable("name")String name){
+        this.myRestService.deleteCapybaraByName(name);
+    }
 
     @PutMapping("/capybara/update/{name}")
     public Optional<Capybara> updateByName(@PathVariable("name")String name, @RequestBody Capybara capybara){

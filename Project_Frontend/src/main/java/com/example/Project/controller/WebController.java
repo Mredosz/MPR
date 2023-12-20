@@ -19,14 +19,14 @@ public class WebController {
     }
     @GetMapping(value = "/allCapybara")
     public String getViewAll (Model model){
-        model.addAttribute("capybara2",service.getAllCapybaras());
+        model.addAttribute("allCapybaras",service.getAllCapybaras());
         return "allCapybara";
     }
 
     @GetMapping(value = "/addCapybara")
     public String addCapybara(Model model){
         model.addAttribute("capybara", new Capybara("",0));
-        model.addAttribute("capybara2", service.getAllCapybaras());
+        model.addAttribute("allCapybaras", service.getAllCapybaras());
         return "addCapybara";
     }
 
@@ -41,9 +41,9 @@ public class WebController {
 
     @GetMapping(value = "/updateCapybara/{name}")
     public String updateCapybara(Model model, @PathVariable("name") String name){
-        var capybara = service.getCapybaraByName(name).get();
+        var capybara = service.getCapybaraByName(name);
         model.addAttribute("capybara",service.updateCapybaraByName(name,capybara));
-        model.addAttribute("capybara2",service.getAllCapybaras());
+        model.addAttribute("allCapybaras",service.getAllCapybaras());
         return "updateCapybara";
     }
 

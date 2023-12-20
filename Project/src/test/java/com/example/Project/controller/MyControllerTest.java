@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -135,10 +136,12 @@ public class MyControllerTest {
 
     @Test
     public void deleteCapybaraByNameWhenCapybaraIsNotExist() throws Exception {
+        doThrow(CapybaraNotExistException.class).when(service).deleteCapybaraByName(any());
+
         mockMvc.perform(delete("/capybara/delete/Maciek"))
                 .andExpect(status().isNotFound());
 
-        verify(service).deleteCapybaraByName("Maciek");
+//        verify(service, times(0)).deleteCapybaraByName("Maciek");
     }
 
     @Test

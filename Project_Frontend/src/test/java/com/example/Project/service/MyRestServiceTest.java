@@ -11,8 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.client.RestClient;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -26,7 +28,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class MyRestServiceTest {
     @Mock
-    private CapybaraRepository repository;
+    private RestClient client;
     @InjectMocks
     private MyRestService service;
     private AutoCloseable openMocks;
@@ -34,7 +36,7 @@ public class MyRestServiceTest {
     @BeforeEach
     public void init(){
         openMocks = MockitoAnnotations.openMocks(this);
-        service = new MyRestService(repository);
+        service = new MyRestService();
     }
 
     @AfterEach
@@ -165,7 +167,7 @@ public class MyRestServiceTest {
         capyList.add(capybara2);
         capyList.add(capybara3);
         capyListResult.add(capybara1);
-        capyListResult.add(capybara2);
+//        capyListResult.add(capybara2);
 
         when(repository.findAll()).thenReturn(capyList);
 

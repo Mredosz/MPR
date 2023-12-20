@@ -1,1 +1,4 @@
 rootProject.name = 'zad01'
+include 'Project_Backednd'
+include 'Project_Frontend'
+
