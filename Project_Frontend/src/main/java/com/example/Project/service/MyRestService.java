@@ -25,7 +25,6 @@ public class MyRestService {
                 .uri(BASE_URL + "/capybara/" + name)
                 .retrieve()
                 .body(Capybara.class);
-
     }
 
     public ArrayList<Capybara> getAllCapybaras() {
@@ -56,7 +55,7 @@ public class MyRestService {
     }
 
     public Capybara updateCapybaraByName(String name, Capybara capybara) {
-         return restClient
+        return restClient
                 .put()
                 .uri(BASE_URL + "/capybara/update/" + name)
                 .body(capybara)
@@ -69,6 +68,7 @@ public class MyRestService {
                 .get()
                 .uri(BASE_URL + "/capybaras/" + name)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<Capybara>>() {});
+                .body(new ParameterizedTypeReference<List<Capybara>>() {
+                });
     }
 }

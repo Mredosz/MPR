@@ -18,6 +18,8 @@
 }
 
 html body {
+    background-image: url("https://cdn.britannica.com/79/191679-050-C7114D2B/Adult-capybara.jpg");
+    background-blend-mode: darken;
     overflow-x: hidden;
     width: 100%;
 }
@@ -69,4 +71,15 @@ input:focus {
     float: left;
     width: 50%;
 }
+
+.table_transparent {
+    --bs-table-bg: transparent !important;
+}
+tr > .text-white{
+    font-size: 23px;
+}
+tr > th > .text-white{
+    font-size: 35px;
+}
+
 

@@ -26,31 +26,31 @@
         </div>
     </div>
 </nav>
-<table class="table text-center" th:fragment="tableAllCapybara">
+<table class="table text-center table_transparent" th:fragment="tableAllCapybara">
     <thead>
     <tr>
-        <th scope="col"><b class="h4">ID</b></th>
-        <th scope="col"><b class="h4">Name</b></th>
-        <th scope="col"><b class="h4">Age</b></th>
-        <th scope="col"><b class="h4">Edit</b></th>
-        <th scope="col"><b class="h4">Delete</b></th>
+        <th scope="col"><b class="h4 text-white">ID</b></th>
+        <th scope="col"><b class="h4 text-white">Name</b></th>
+        <th scope="col"><b class="h4 text-white">Age</b></th>
+        <th scope="col"><b class="h4 text-white">Edit</b></th>
+        <th scope="col"><b class="h4 text-white">Delete</b></th>
     </tr>
     </thead>
     <tbody>
     <tr th:each = "capy : ${allCapybaras}">
-        <td th:text = "${capy.id}"></td>
-        <td th:text = "${capy.name}"></td>
-        <td th:text = "${capy.age}"></td>
+        <td th:text = "${capy.id}" class="text-white"></td>
+        <td th:text = "${capy.name}" class="text-white"></td>
+        <td th:text = "${capy.age}" class="text-white"></td>
         <td>
             <a th:href="@{'/updateCapybara/' + ${capy.getName()}}">
-                <button class="btn btn-outline-dark">
+                <button class="btn btn-dark">
                     <b>Edit</b>
                 </button>
             </a>
         </td>
         <td>
             <a th:href="@{'/deleteCapybara/' + ${capy.getName()}}">
-                <button class="btn btn-outline-dark">
+                <button class="btn btn-dark">
                     <b>Delete</b>
                 </button>
             </a>
