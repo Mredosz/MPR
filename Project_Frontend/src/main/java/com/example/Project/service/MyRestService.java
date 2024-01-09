@@ -1,6 +1,7 @@
 package com.example.Project.service;
 
 import com.example.Project.Capybara;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,12 @@ import java.util.List;
 @Service
 public class MyRestService {
     public static final String BASE_URL = "http://localhost:8080";
+
+    @Autowired
     RestClient restClient;
 
-    public MyRestService() {
-        restClient = RestClient.create();
+    public MyRestService(RestClient restClient) {
+        this.restClient = restClient;
     }
 
     public Capybara getCapybaraByName(String name) {
@@ -32,8 +35,7 @@ public class MyRestService {
                 .get()
                 .uri(BASE_URL + "/capybaras")
                 .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+                .body(new ParameterizedTypeReference<>() {});
     }
 
     public void addCapybara(Capybara capybara) {
@@ -68,7 +70,6 @@ public class MyRestService {
                 .get()
                 .uri(BASE_URL + "/capybaras/" + name)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<Capybara>>() {
-                });
+                .body(new ParameterizedTypeReference<List<Capybara>>() {});
     }
 }

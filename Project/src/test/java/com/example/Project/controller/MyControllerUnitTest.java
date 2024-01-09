@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -32,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-public class MyControllerTest {
+public class MyControllerUnitTest {
     @Mock
     private MyRestService service;
     @InjectMocks
@@ -171,7 +170,8 @@ public class MyControllerTest {
     @Test
     public void updateCapybaraByNameWhenCapybaraAgeIsToLow() throws Exception {
         var capybara = new Capybara("Marcel", 4);
-        when(service.updateCapybaraByName(eq(capybara.getName()), any())).thenThrow(new CapybaraAgeIsToLowException());
+        when(service.updateCapybaraByName(eq(capybara.getName()), any()))
+                .thenThrow(new CapybaraAgeIsToLowException());
 
         mockMvc.perform(put("/capybara/update/Marcel")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class MyRestService {
-    CapybaraRepository repository;
+   private final CapybaraRepository repository;
 
     public MyRestService(CapybaraRepository repository) {
         this.repository = repository;

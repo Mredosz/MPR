@@ -9,7 +9,6 @@
     <input type="hidden" th:field="*{id}">
     <div class="row">
         <div class="col">
-            <form method="post" action="#" th:action="@{/addCapybara}" th:object="${capybara}">
                 <div>
                     <label for="name"><b class="text-start">Name:</b></label>
                     <input type="text" name="name" th:field="*{name}" id="name" required>
@@ -22,7 +21,6 @@
                     <button type="reset" class="btn-cancel">Cancel</button>
                     <button type="submit" id="sendAddCapybara" class="btn-update">Update</button>
                 </div>
-            </form>
         </div>
         <div class="col-8 text-center">
             <table th:replace="~{general.html :: tableAllCapybara}"></table>

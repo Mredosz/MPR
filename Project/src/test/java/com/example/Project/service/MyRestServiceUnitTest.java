@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MyRestServiceTest {
+public class MyRestServiceUnitTest {
     @Mock
     private CapybaraRepository repository;
     @InjectMocks
