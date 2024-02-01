@@ -112,7 +112,6 @@ public class MyControllerUnitTest {
                 .andExpect(jsonPath("$.[0].name").value("Maciek"))
                 .andExpect(jsonPath("$.[1].age").value("7"))
                 .andExpect(jsonPath("$.[1].name").value("Monika"))
-                // Poczytac jest odwołanie do konkretnego elemntu w tablicy
                 .andExpect(status().isOk());
     }
 
@@ -139,8 +138,6 @@ public class MyControllerUnitTest {
 
         mockMvc.perform(delete("/capybara/delete/Maciek"))
                 .andExpect(status().isNotFound());
-
-//        verify(service, times(0)).deleteCapybaraByName("Maciek");
     }
 
     @Test

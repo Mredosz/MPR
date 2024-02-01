@@ -27,13 +27,15 @@ public class MyRestService {
     public Optional<Capybara> getCapybaraByName(String name) {
         if (this.repository.findByName(name).isPresent())
             return this.repository.findByName(name);
-        else throw new CapybaraNotExistException();
+        else
+            throw new CapybaraNotExistException();
     }
 
     public ArrayList<Capybara> getAllCapybaras() {
         if (!((ArrayList<Capybara>) this.repository.findAll()).isEmpty())
             return (ArrayList<Capybara>) this.repository.findAll();
-        else throw new CapybaraNotExistException();
+        else
+            throw new CapybaraNotExistException();
     }
 
     public Optional<Capybara> addCapybara(Capybara capybara) {

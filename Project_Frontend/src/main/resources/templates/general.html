@@ -43,14 +43,14 @@
         <td th:text = "${capy.age}" class="text-white"></td>
         <td>
             <a th:href="@{'/updateCapybara/' + ${capy.getName()}}">
-                <button class="btn btn-dark">
+                <button class="btn btn-dark" id="editButton">
                     <b>Edit</b>
                 </button>
             </a>
         </td>
         <td>
             <a th:href="@{'/deleteCapybara/' + ${capy.getName()}}">
-                <button class="btn btn-dark">
+                <button class="btn btn-dark" id="deleteButton">
                     <b>Delete</b>
                 </button>
             </a>

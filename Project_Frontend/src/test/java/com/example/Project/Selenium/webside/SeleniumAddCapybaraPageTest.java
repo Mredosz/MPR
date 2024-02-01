@@ -1,4 +1,4 @@
-package com.example.Project.Selenium;
+package com.example.Project.Selenium.webside;
 
 import com.example.Project.service.MyRestService;
 import org.openqa.selenium.WebDriver;
@@ -19,8 +19,8 @@ public class SeleniumAddCapybaraPageTest {
     @FindBy(id = "send")
     WebElement sendSubmit;
 
-    public static final String  URL ="http://localhost:8080/addCapybara";
-    public static final String  URLALL ="http://localhost:8080/allCapybara";
+    public static final String  URL ="http://localhost:8081/addCapybara";
+    public static final String  URLALL ="http://localhost:8081/allCapybara";
 
     public SeleniumAddCapybaraPageTest(WebDriver driver) {
         this.driver = driver;
@@ -29,7 +29,6 @@ public class SeleniumAddCapybaraPageTest {
 
     public void open(){
         driver.get(URL);
-        driver.get(URLALL);
     }
 
     public void fillInInput(){
@@ -44,7 +43,6 @@ public class SeleniumAddCapybaraPageTest {
 
     public void checkThatCapybaraExist(){
         service.getCapybaraByName("Adam");
-
     }
 
 }

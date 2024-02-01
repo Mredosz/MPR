@@ -46,6 +46,11 @@ public class MyControllerIntegrityTest {
                .as(Capybara[].class));
 
        assertEquals(2,list.get(0).getAge());
+       assertEquals("Bob",list.get(0).getName());
+       assertEquals(5,list.get(1).getAge());
+       assertEquals("George",list.get(1).getName());
+       assertEquals(12,list.get(2).getAge());
+       assertEquals("Dan",list.get(2).getName());
     }
 
     @Test
